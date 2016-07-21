@@ -60,11 +60,16 @@ class VppTest:
             if len (out) > 1:
                 print self.YELLOW + out + self.END
 
-    def pg_arm(self, i, pkts):
-        os.system("rm -f /tmp/pg%u_*.pcap" % i)
+    def pg_arm(self, i, o, pkts):
+        os.system("sudo rm -f /tmp/pg%u_*.pcap" % i)
+        os.system("sudo rm -f /tmp/pg%u_*.pcap" % o)
         wrpcap("/tmp/pg%u_in.pcap" % i, pkts)
         self.cli(0, "packet-generator new pcap /tmp/pg%u_in.pcap source pg%u name pcap%u" % (i, i, i))
-        self.cli(0, "packet-generator capture pg%u pcap /tmp/pg%u_out.pcap" % (i, i))
+        self.cli(0, "packet-generator capture pg%u pcap /tmp/pg%u_out.pcap" % (o, o))
+
+    def pg_read_output(self, o):
+        output = rdpcap("/tmp/pg%u_out.pcap" % o)
+        return output
 
     def log (self, s):
         if self.verbose > 0:

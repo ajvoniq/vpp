@@ -44,7 +44,7 @@ for i in range (0, num_if):
                IPv6(src = "::", dst = inet_ntop(socket.AF_INET6, nsma)) /
                ICMPv6ND_NS(tgt = VPP_IP6S[i])
              )
-    t.pg_arm (i, nd_req)
+    t.pg_arm (i, i,  nd_req)
 
 # Start test
 t.cli(2, "clear trace")

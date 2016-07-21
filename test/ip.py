@@ -41,7 +41,7 @@ t.test_name("ARP test")
 for i in range (0, num_if):
     arp_req = ( Ether(dst="ff:ff:ff:ff:ff:ff",src=MY_MACS[i]) /
                 ARP(op=ARP.who_has, pdst=VPP_IP4S[i], psrc=MY_IP4S[i], hwsrc=MY_MACS[i]))
-    t.pg_arm (i, arp_req)
+    t.pg_arm (i, i, arp_req)
 
 # Start test
 t.cli(2, "trace add pg-input %u" % (num_if * 3))
@@ -89,7 +89,7 @@ for i in range (0, num_if):
               UDP(sport=int(10000+n),dport=int(10000+n)) /
               Raw('\x00' * (n-42)))
         pkts.append(p)
-    t.pg_arm (i, pkts)
+    t.pg_arm (i, i, pkts)
 
 # Start test
 t.cli(2, "trace add pg-input %u" % (num_if * 3))
